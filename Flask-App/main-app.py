@@ -18,7 +18,7 @@ def show_page():
 @app.route('/add-to-db', methods=['POST'])
 def addToDb():
 
-    print request.form.to_dict()
+    print(request.form.to_dict())
     data = request.form.to_dict()
     # print request.form['net_id']
 
@@ -41,7 +41,7 @@ def addToDb():
 
 
 
-    print "success"
+    print("success")
     print (netid, fname, pname, things, alrmet, year, fb, ig, wa)
     
     # Construct args here

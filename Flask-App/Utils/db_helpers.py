@@ -1,16 +1,19 @@
-import MySQLdb, MySQLdb.cursors
-import dbconfig 
+import pymysql, pymysql.cursors
+import dbconfig as dbconfig 
 
-def addToDatabase(netid, fname, pname, things, alrmet, year, fb, ig, wa):
+def addToDatabase(netid, fname, pname, things, met, year, fb, ig, wa):
 
-    alrmet = alrmet.split(',')
-    for i in range(len(alrmet)):
-        alrmet[i] = alrmet[i].strip()
-    alrmet = netid+","+",".join(alrmet)
+    met = met.split(',')
+    for i in range(len(met)):
+        met[i] = met[i].strip()
+    alrmet = netid+","+",".join(met)
+    if len(met)==1:
+        alrmet = netid+","+met[0]
+        if met[0]=='': alrmet=netid
     print(alrmet)
 
     try:
-        connection = MySQLdb.connect(host = 'localhost', 
+        connection = pymysql.connect(host = 'localhost', 
             database = 'socialite',
             user = dbconfig.USERNAME, 
             password = dbconfig.PASSWORD)
@@ -34,7 +37,7 @@ def addToDatabase(netid, fname, pname, things, alrmet, year, fb, ig, wa):
         connection.commit()
         output ="Inserted successfully"
 
-    except (MySQLdb.Error, MySQLdb.Warning) as error:
+    except (pymysql.Error, pymysql.Warning) as error:
         connection.rollback()
         output = "Something went wrong in the insertion" + str(error)
 
@@ -45,11 +48,11 @@ def addToDatabase(netid, fname, pname, things, alrmet, year, fb, ig, wa):
 
 def getFromDatabase():
     try:
-        connection = MySQLdb.connect(host='localhost',
+        connection = pymysql.connect(host='localhost',
         db='socialite',
         user=dbconfig.USERNAME,
         passwd=dbconfig.PASSWORD,
-        cursorclass = MySQLdb.cursors.DictCursor)
+        cursorclass = pymysql.cursors.DictCursor)
 
         query = "select * from user_data"
         cur = connection.cursor()
@@ -72,7 +75,7 @@ def getFromDatabase():
 
 
 
-    except (MySQLdb.Error, MySQLdb.Warning) as e:
+    except (pymysql.Error, pymysql.Warning) as e:
         print ("Error while connecting to MySQL", e)
         return None
 
@@ -84,11 +87,13 @@ def updateDatabase(n1, n1_dont_match):
     
     try:
         p1_dont_match = ",".join(n1_dont_match)
+        if len(n1_dont_match)==1:
+            p1_dont_match = n1_dont_match[0]
 
         # print n1, p1_dont_match
         query = "update user_data set already_met = %s where net_id = %s ;"
 
-        connection = MySQLdb.connect(host='localhost',
+        connection = pymysql.connect(host='localhost',
         db='socialite',
         user=dbconfig.USERNAME,
         passwd=dbconfig.PASSWORD)
@@ -101,5 +106,5 @@ def updateDatabase(n1, n1_dont_match):
         connection.commit()
         connection.close()
 
-    except (MySQLdb.Error, MySQLdb.Warning) as e:
+    except (pymysql.Error, pymysql.Warning) as e:
         print("Error in DB: ", e)

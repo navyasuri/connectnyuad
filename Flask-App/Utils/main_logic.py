@@ -48,7 +48,7 @@ ConnectNYUAD team
 
 def get_match_pairs():
     allUsers = db_helpers.getFromDatabase()
-    all_ids = allUsers.keys()
+    all_ids = list(allUsers.keys())
 
     # Shuffle the list of all user ids
     random.shuffle(all_ids)
@@ -56,7 +56,7 @@ def get_match_pairs():
     # Make a list to store ones who are already matched
     already_matched = []
 
-    print "All Ids", all_ids
+    print("All Ids", all_ids)
 
     # odd case
     if len(all_ids)%2:

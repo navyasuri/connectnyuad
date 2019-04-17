@@ -20,8 +20,6 @@ Good luck!
 
 Warm regards,
 ConnectNYUAD team
-
-(THIS IS A TEST! Thanks for bearing with us. -The Gabrus)
 '''
 
 message3 = '''
@@ -42,8 +40,6 @@ Good luck!
 
 Warm regards,
 ConnectNYUAD team
-
-(THIS IS A TEST! Thanks for bearing with us. -The Gabrus)
 '''
 
 def get_match_pairs():
@@ -117,7 +113,7 @@ def get_match_pairs():
             pname3 = allUsers[p3]['pref_name'],
             things3 = allUsers[p3]['3_things']
         )
-        # print(msg)
+        print(p1, p2, p3)
         sendemail.send_email([p1,p2,p3], subject, msg)
 
 
@@ -173,9 +169,10 @@ def get_match_pairs():
         )
 
         # print(msg)
-        sendemail.send_email([person, second_person], subject, msg)
 
         # print("Person 1", person)
         # print("Person 2", second_person)
+        print(person, second_person)
+        sendemail.send_email([person, second_person], subject, msg)
 
 get_match_pairs()
